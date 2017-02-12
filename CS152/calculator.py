@@ -40,10 +40,11 @@ def sub(operands):
         if each_value is not None:
            if index ==0:
                result = each_value
+
            else:
                result -= each_value
         else:
-            return
+            result =0;
     return result
 def multiply(operands):
     result =0;
