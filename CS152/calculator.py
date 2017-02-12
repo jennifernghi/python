@@ -34,10 +34,25 @@ def add(operands):
 
 
 def sub(operands):
-
+    result =0;
+    for index, each_operand in enumerate(operands):
+        each_value = get_value(each_operand)
+        if each_value is not None:
+           if index ==0:
+               result = each_value
+           else:
+               result -= each_value
+        else:
+            return
+    return result
 def multiply(operands):
+    result =0;
 
+    return result
 def divide(operands):
+    result = 0;
+
+    return result
 # Dictionary mapping supported symbols to functions.
 # The functions must be defined above.
 SUPPORTED_OPERATORS = {'+': add, '-': sub, '*': multiply, '/': divide}
