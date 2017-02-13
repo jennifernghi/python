@@ -40,7 +40,6 @@ def sub(operands):
         if each_value is not None:
            if index ==0:
                result = each_value
-
            else:
                result -= each_value
         else:
@@ -115,7 +114,7 @@ def error(expected, error):
     print('Please enter a valid expression in prefix notation or q to quit')
 
 
-def main():
+def main_function():
     more_input = True
     while more_input:
         expression = input("CS 152 >>>") # input always return a STRING, use conversion if want to use a diff type
@@ -127,4 +126,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main_function()
