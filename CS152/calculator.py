@@ -45,17 +45,39 @@ def sub(operands):
         else:
             result =0;
     return result
+
 def multiply(operands):
     result =0;
-
+    for index, each_operand in enumerate(operands):
+        each_value = get_value(each_operand)
+        if each_value is not None:
+            if index==0:
+                result = each_value
+            else:
+                result *= each_value
+        else:
+            result = 0
     return result
+
 def divide(operands):
     result = 0;
+    for index, each_operand in enumerate(operands):
+        each_value = get_value(each_operand)
+        if each_value is not None:
+            if index == 0:
+                result = each_value
+            else:
 
+                if result == 0:
+                    pass # 0 denominator
+                else:
+                    result /= each_value
+        else:
+            result = 0
     return result
 # Dictionary mapping supported symbols to functions.
 # The functions must be defined above.
-SUPPORTED_OPERATORS = {'+': add, '-': sub, '*': multiply, '/': divide}
+SUPPORTED_OPERATORS = {'+': add, '-': sub, '*': multiply, '/': divide} # dictionary order not consistent across machines
 SUPPORTED_SYMBOLS = sorted(SUPPORTED_OPERATORS.keys())
 
 
@@ -72,7 +94,7 @@ def evaluate(expression):
     tokens = expression.split()
     operator = tokens[0]  # in prefix notation, the operator comes first
     operands = tokens[1:]
-    if operator in SUPPORTED_OPERATORS:
+    if operator in SUPPORTED_OPERATORS:  # SUPPORTED_OPERATORS constant (capitalized): python treat constant as variable
         function_name = SUPPORTED_OPERATORS[operator]
         result = function_name(operands)
     else:
