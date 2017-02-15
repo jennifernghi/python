@@ -2,8 +2,9 @@
 # Name:        calculator
 # Purpose:     CS 152 Python Demo
 #
-# Author:  Rula Khayrallah
-#
+# This program writen upon the provided code by Author:  Rula Khayrallah
+# Name: Nghi Nguyen
+# SJSU ID: 010872316
 # Copyright © Rula Khayrallah, 2017
 # -----------------------------------------------------------------------------
 """
@@ -28,56 +29,89 @@ def add(operands):
         each_value = get_value(each_operand)  # Get the corresponding number.
         if each_value is not None:  # Each_operand is a valid number, add it.
             result += each_value
-        else:    # There is an error, return None.
+        else:  # There is an error, return None.
             return
-    return result # Return the sum.
+    return result  # Return the sum.
 
 
 def sub(operands):
-    result =0;
-    for index, each_operand in enumerate(operands):
-        each_value = get_value(each_operand)
-        if each_value is not None:
-           if index ==0:
-               result = each_value
-           else:
-               result -= each_value
-        else:
-            result =0;
-    return result
-
-def multiply(operands):
-    result =0;
-    for index, each_operand in enumerate(operands):
-        each_value = get_value(each_operand)
-        if each_value is not None:
-            if index==0:
-                result = each_value
-            else:
-                result *= each_value
-        else:
-            result = 0
-    return result
-
-def divide(operands):
-    result = 0;
-    for index, each_operand in enumerate(operands):
-        each_value = get_value(each_operand)
+    """
+    compute subtraction of operands
+    if there is only 1 operand, return that number
+    :param operands: list of strings
+    :return: int or float value
+    """
+    result = 0
+    for index, each_operand in enumerate(operands):  # loop the list of operands with index using enumerate()
+        each_value = get_value(each_operand)  # get corresponding number
         if each_value is not None:
             if index == 0:
+                result = each_value  # at index = 0 , set result with each value
+            else:
+                result -= each_value  # otherwise, result = result - each_value
+        else:
+            result = 0  # if operands is empty
+    return result
+
+
+def multiply(operands):
+    """
+    compute multiplication of operands
+    if there is only 1 operand, return that number
+    :param operands: list of strings
+    :return: int or float value
+    """
+    result = 0
+    for index, each_operand in enumerate(operands):  # loop the list of operands with index using enumerate()
+        each_value = get_value(each_operand)  # get corresponding number
+        if each_value is not None:
+            if index == 0:
+                result = each_value  # at index = 0 , set result with each value
+            else:
+                result *= each_value  # otherwise, result = result * each_value
+        else:
+            result = 0  # if operands is empty
+    return result
+
+
+def divide(operands):
+    """
+    compute division of operands
+    throw error if numerator(s) is/ are
+    if there is only 1 operand, return that number
+    :param operands: list of strings
+    :return: int or float value
+    """
+    result = 0
+    for index, each_operand in enumerate(operands):  # loop the list of operands with index using enumerate()
+        each_value = get_value(each_operand)  # get corresponding number
+        if each_value is not None:
+            if index == 0:  # at index = 0 , set result with each value
                 result = each_value
             else:
-
-                if result == 0:
-                    pass # 0 denominator
+                if each_value == 0:  # if denominator is 0, show error
+                    error("non zero operand", each_value)
+                    return  # break
                 else:
-                    result /= each_value
+                    result /= each_value  # otherwise, result = result / each_value
         else:
-            result = 0
+            result = 0  # if operands is empty
     return result
+
+
+def comment(operands):
+    """
+    ignore comments with # operator
+    :param operands: list of strings
+    :return: none
+    """
+    return None
+
+
 # Dictionary mapping supported symbols to functions.
 # The functions must be defined above.
-SUPPORTED_OPERATORS = {'+': add, '-': sub, '*': multiply, '/': divide} # dictionary order not consistent across machines
+SUPPORTED_OPERATORS = {'+': add, '-': sub, '*': multiply, '/': divide,
+                       '#': comment}  # dictionary order not consistent across machines
 SUPPORTED_SYMBOLS = sorted(SUPPORTED_OPERATORS.keys())
 
 
@@ -115,7 +149,7 @@ def get_value(a_string):
     try:
         # First try to convert the string to an integer.
         value = int(a_string)
-    except ValueError:  #  Not a valid integer
+    except ValueError:  # Not a valid integer
         try:
             # Try to convert the string to a float
             value = float(a_string)
@@ -136,10 +170,10 @@ def error(expected, error):
     print('Please enter a valid expression in prefix notation or q to quit')
 
 
-def main_function():
+def main():
     more_input = True
     while more_input:
-        expression = input("CS 152 >>>") # input always return a STRING, use conversion if want to use a diff type
+        expression = input("CS 152 >>>")  # input always return a STRING, use conversion if want to use a diff type
         if expression == 'q':
             more_input = False
             print('Exiting the CS 152 Calculator')
@@ -148,4 +182,4 @@ def main_function():
 
 
 if __name__ == '__main__':
-    main_function()
+    main()
