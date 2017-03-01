@@ -19,12 +19,14 @@ t_MINUS = r'-'
 t_TIMES = r'\*'
 t_DIVIDE = r'/'
 
+
 # Regular expression rules with some action code
 # The order matters
 def t_FLOAT(t):
     r'\d*\.\d+|\d+\.\d*'
     t.value = float(t.value)  # string must be converted to float
     return t
+
 
 def t_INT(t):
     r'\d+'
@@ -33,7 +35,7 @@ def t_INT(t):
 
 
 # A string containing ignored characters (spaces and tabs)
-t_ignore  = ' \t'
+t_ignore = ' \t'
 
 
 # Error handling rule

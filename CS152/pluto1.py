@@ -14,8 +14,9 @@ Supports the following grammar:
     <term> ::= <factor> {MULT_OP <factor>}
     <factor>::= LPAREN <arith_expr> RPAREN | FLOAT | INT
 """
-import lex
 from operator import add, sub, mul, truediv
+
+import lex
 
 # For the homework, uncomment the import below
 # from operator import lt, gt, eq, ne, le, ge

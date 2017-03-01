@@ -1,0 +1,197 @@
+Created by PLY version 3.9 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> command
+Rule 1     command -> arith_expr
+Rule 2     arith_expr -> arith_expr ADD_OP term
+Rule 3     arith_expr -> term
+Rule 4     term -> term MULT_OP factor
+Rule 5     term -> factor
+Rule 6     factor -> LPAREN arith_expr RPAREN
+Rule 7     factor -> FLOAT
+Rule 8     factor -> INT
+
+Terminals, with rules where they appear
+
+ADD_OP               : 2
+FLOAT                : 7
+INT                  : 8
+LPAREN               : 6
+MULT_OP              : 4
+RPAREN               : 6
+error                : 
+
+Nonterminals, with rules where they appear
+
+arith_expr           : 1 2 6
+command              : 0
+factor               : 4 5
+term                 : 2 3 4
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . command
+    (1) command -> . arith_expr
+    (2) arith_expr -> . arith_expr ADD_OP term
+    (3) arith_expr -> . term
+    (4) term -> . term MULT_OP factor
+    (5) term -> . factor
+    (6) factor -> . LPAREN arith_expr RPAREN
+    (7) factor -> . FLOAT
+    (8) factor -> . INT
+
+    LPAREN          shift and go to state 6
+    FLOAT           shift and go to state 3
+    INT             shift and go to state 2
+
+    arith_expr                     shift and go to state 1
+    command                        shift and go to state 4
+    factor                         shift and go to state 5
+    term                           shift and go to state 7
+
+state 1
+
+    (1) command -> arith_expr .
+    (2) arith_expr -> arith_expr . ADD_OP term
+
+    $end            reduce using rule 1 (command -> arith_expr .)
+    ADD_OP          shift and go to state 8
+
+
+state 2
+
+    (8) factor -> INT .
+
+    MULT_OP         reduce using rule 8 (factor -> INT .)
+    RPAREN          reduce using rule 8 (factor -> INT .)
+    ADD_OP          reduce using rule 8 (factor -> INT .)
+    $end            reduce using rule 8 (factor -> INT .)
+
+
+state 3
+
+    (7) factor -> FLOAT .
+
+    MULT_OP         reduce using rule 7 (factor -> FLOAT .)
+    RPAREN          reduce using rule 7 (factor -> FLOAT .)
+    ADD_OP          reduce using rule 7 (factor -> FLOAT .)
+    $end            reduce using rule 7 (factor -> FLOAT .)
+
+
+state 4
+
+    (0) S' -> command .
+
+
+
+state 5
+
+    (5) term -> factor .
+
+    MULT_OP         reduce using rule 5 (term -> factor .)
+    ADD_OP          reduce using rule 5 (term -> factor .)
+    $end            reduce using rule 5 (term -> factor .)
+    RPAREN          reduce using rule 5 (term -> factor .)
+
+
+state 6
+
+    (6) factor -> LPAREN . arith_expr RPAREN
+    (2) arith_expr -> . arith_expr ADD_OP term
+    (3) arith_expr -> . term
+    (4) term -> . term MULT_OP factor
+    (5) term -> . factor
+    (6) factor -> . LPAREN arith_expr RPAREN
+    (7) factor -> . FLOAT
+    (8) factor -> . INT
+
+    LPAREN          shift and go to state 6
+    FLOAT           shift and go to state 3
+    INT             shift and go to state 2
+
+    arith_expr                     shift and go to state 9
+    factor                         shift and go to state 5
+    term                           shift and go to state 7
+
+state 7
+
+    (3) arith_expr -> term .
+    (4) term -> term . MULT_OP factor
+
+    ADD_OP          reduce using rule 3 (arith_expr -> term .)
+    $end            reduce using rule 3 (arith_expr -> term .)
+    RPAREN          reduce using rule 3 (arith_expr -> term .)
+    MULT_OP         shift and go to state 10
+
+
+state 8
+
+    (2) arith_expr -> arith_expr ADD_OP . term
+    (4) term -> . term MULT_OP factor
+    (5) term -> . factor
+    (6) factor -> . LPAREN arith_expr RPAREN
+    (7) factor -> . FLOAT
+    (8) factor -> . INT
+
+    LPAREN          shift and go to state 6
+    FLOAT           shift and go to state 3
+    INT             shift and go to state 2
+
+    factor                         shift and go to state 5
+    term                           shift and go to state 11
+
+state 9
+
+    (6) factor -> LPAREN arith_expr . RPAREN
+    (2) arith_expr -> arith_expr . ADD_OP term
+
+    RPAREN          shift and go to state 12
+    ADD_OP          shift and go to state 8
+
+
+state 10
+
+    (4) term -> term MULT_OP . factor
+    (6) factor -> . LPAREN arith_expr RPAREN
+    (7) factor -> . FLOAT
+    (8) factor -> . INT
+
+    LPAREN          shift and go to state 6
+    FLOAT           shift and go to state 3
+    INT             shift and go to state 2
+
+    factor                         shift and go to state 13
+
+state 11
+
+    (2) arith_expr -> arith_expr ADD_OP term .
+    (4) term -> term . MULT_OP factor
+
+    ADD_OP          reduce using rule 2 (arith_expr -> arith_expr ADD_OP term .)
+    $end            reduce using rule 2 (arith_expr -> arith_expr ADD_OP term .)
+    RPAREN          reduce using rule 2 (arith_expr -> arith_expr ADD_OP term .)
+    MULT_OP         shift and go to state 10
+
+
+state 12
+
+    (6) factor -> LPAREN arith_expr RPAREN .
+
+    MULT_OP         reduce using rule 6 (factor -> LPAREN arith_expr RPAREN .)
+    RPAREN          reduce using rule 6 (factor -> LPAREN arith_expr RPAREN .)
+    ADD_OP          reduce using rule 6 (factor -> LPAREN arith_expr RPAREN .)
+    $end            reduce using rule 6 (factor -> LPAREN arith_expr RPAREN .)
+
+
+state 13
+
+    (4) term -> term MULT_OP factor .
+
+    MULT_OP         reduce using rule 4 (term -> term MULT_OP factor .)
+    ADD_OP          reduce using rule 4 (term -> term MULT_OP factor .)
+    $end            reduce using rule 4 (term -> term MULT_OP factor .)
+    RPAREN          reduce using rule 4 (term -> term MULT_OP factor .)
+
