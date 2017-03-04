@@ -5,9 +5,9 @@ _tabversion = '3.8'
 
 _lr_method = 'LALR'
 
-_lr_signature = '41243F855750D9954F2EB3A18A78E5AA'
+_lr_signature = 'B29ABCC76E1FBCD342E953E305D4DAD1'
     
-_lr_action_items = {'$end':([1,2,3,4,5,7,11,12,13,],[-1,-8,-7,0,-5,-3,-2,-6,-4,]),'RPAREN':([2,3,5,7,9,11,12,13,],[-8,-7,-5,-3,12,-2,-6,-4,]),'MULT_OP':([2,3,5,7,11,12,13,],[-8,-7,-5,10,10,-6,-4,]),'FLOAT':([0,6,8,10,],[3,3,3,3,]),'ADD_OP':([1,2,3,5,7,9,11,12,13,],[8,-8,-7,-5,-3,8,-2,-6,-4,]),'LPAREN':([0,6,8,10,],[6,6,6,6,]),'INT':([0,6,8,10,],[2,2,2,2,]),}
+_lr_action_items = {'EXP':([5,7,8,13,],[-9,-10,12,-8,]),'LPAREN':([0,1,10,11,12,],[1,1,1,1,1,]),'RPAREN':([3,4,5,7,8,9,13,14,15,16,],[-5,-3,-9,-10,-7,13,-8,-2,-4,-6,]),'MULT_OP':([3,4,5,7,8,13,14,15,16,],[-5,11,-9,-10,-7,-8,11,-4,-6,]),'INT':([0,1,10,11,12,],[7,7,7,7,7,]),'FLOAT':([0,1,10,11,12,],[5,5,5,5,5,]),'$end':([2,3,4,5,6,7,8,13,14,15,16,],[-1,-5,-3,-9,0,-10,-7,-8,-2,-4,-6,]),'ADD_OP':([2,3,4,5,7,8,9,13,14,15,16,],[10,-5,-3,-9,-10,-7,10,-8,-2,-4,-6,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'arith_expr':([0,6,],[1,9,]),'command':([0,],[4,]),'factor':([0,6,8,10,],[5,5,5,13,]),'term':([0,6,8,],[7,7,11,]),}
+_lr_goto_items = {'power':([0,1,10,11,12,],[3,3,3,15,16,]),'term':([0,1,10,],[4,4,14,]),'command':([0,],[6,]),'factor':([0,1,10,11,12,],[8,8,8,8,8,]),'arith_expr':([0,1,],[2,9,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,12 +26,14 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> command","S'",1,None,None,None),
-  ('command -> arith_expr','command',1,'p_command','yaccparser.py',56),
-  ('arith_expr -> arith_expr ADD_OP term','arith_expr',3,'p_arith_expr','yaccparser.py',60),
-  ('arith_expr -> term','arith_expr',1,'p_arith_expr_term','yaccparser.py',67),
-  ('term -> term MULT_OP factor','term',3,'p_term','yaccparser.py',71),
-  ('term -> factor','term',1,'p_term_factor','yaccparser.py',79),
-  ('factor -> LPAREN arith_expr RPAREN','factor',3,'p_factor','yaccparser.py',83),
-  ('factor -> FLOAT','factor',1,'p_factor_float','yaccparser.py',87),
-  ('factor -> INT','factor',1,'p_factor_int','yaccparser.py',91),
+  ('command -> arith_expr','command',1,'p_command','yaccparser.py',60),
+  ('arith_expr -> arith_expr ADD_OP term','arith_expr',3,'p_arith_expr','yaccparser.py',65),
+  ('arith_expr -> term','arith_expr',1,'p_arith_expr_term','yaccparser.py',73),
+  ('term -> term MULT_OP power','term',3,'p_term','yaccparser.py',78),
+  ('term -> power','term',1,'p_term_power','yaccparser.py',86),
+  ('power -> factor EXP power','power',3,'p_power','yaccparser.py',91),
+  ('power -> factor','power',1,'p_power_factor','yaccparser.py',97),
+  ('factor -> LPAREN arith_expr RPAREN','factor',3,'p_factor','yaccparser.py',103),
+  ('factor -> FLOAT','factor',1,'p_factor_float','yaccparser.py',108),
+  ('factor -> INT','factor',1,'p_factor_int','yaccparser.py',113),
 ]
