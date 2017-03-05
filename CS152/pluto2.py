@@ -1,8 +1,8 @@
 # -----------------------------------------------------------------------------
 # Name:        pluto2
+# extended from pluto1.py - author: Rula Khayrallah
 #
-#
-# Author:  Nghi Nguyen
+# Author: Jennifer  Nghi Nguyen - SJSU ID: 010872316
 #
 # -----------------------------------------------------------------------------
 """
@@ -64,11 +64,12 @@ def t_INT(t):
     return t
 
 
-# For the homework, you will add a function for boolean tokens
+# function for boolean tokens
 def t_BOOL(t):
     r'True|False'
+
     if t.value == "True":
-        t.value = True
+        t.value = True # value of t is boolean type
     elif t.value == "False":
         t.value = False
     return t
@@ -88,8 +89,8 @@ def t_error(t):
 
 # For homework 2, add the comparison operators to this dictionary
 SUPPORTED_OPERATORS = {'+': add, '-': sub, '*': mul, '/': truediv,
-                       '<': lt, '>': gt, '==': eq, '<=': le, '>=': ge, '!=': ne,
-                       'or': or_, 'and': and_, 'not': not_}
+                       '<': lt, '>': gt, '==': eq, '<=': le, '>=': ge, '!=': ne,  # COMP_OP
+                       'or': or_, 'and': and_, 'not': not_}  # boolean op
 
 
 def command():
@@ -97,7 +98,6 @@ def command():
      <command> ::= <bool_expr>
 
     """
-
     result = bool_expr()
     if not parse_error:
         if token:
@@ -127,7 +127,7 @@ def bool_term():
     result = not_factor()
     while token and token.type == 'AND':
         operation = SUPPORTED_OPERATORS[token.value]
-        match()
+        match()  # next token
         operand = bool_term()
         if not parse_error:
             result = operation(result, operand)  # and_(a,b)
@@ -138,14 +138,27 @@ def not_factor():
     """
     <not_factor> ::= {NOT} <bool_factor>
     """
-    result = bool_factor()
-    while token and token.type == 'NOT':
-        operation = SUPPORTED_OPERATORS[token.value]
+    result = ""
+    count = 0  # counter keep track of repetition of not
 
-        match()
-        operand = bool_factor()
+    # if token doesn't start with not
+    if token and token.type != 'NOT':
+        result = bool_factor()  # process <bool_factor>
+
+    # if token start with not
+    if token and token.type == 'NOT':
+        operation = SUPPORTED_OPERATORS[token.value]  # not_()
+        while token and token.type == 'NOT':
+            count += 1  # increment the count
+            match()  # next token
+        operand = bool_factor()  # <bool_factor>
         if not parse_error:
-            result = operation(result)
+
+            # use not_(operand)
+            for i in range(0, count):
+                result = operation(operand)
+                operand = result
+
     return result
 
 
@@ -153,18 +166,24 @@ def bool_factor():
     """
     <bool_factor> ::= BOOL | LPAREN <bool_expr> RPAREN | <comparison>
     """
+
+    # BOOL
     if token and token.type == 'BOOL':
         result = token.value
-        match()
+        match() # next token
         return result
+
+    # LPAREN <bool_expr> RPAREN
     elif token and token.type == 'LPAREN':
-        match()
+        match() # next token
         result = bool_expr()
         if token and token.type == 'RPAREN':
-            match()
+            match()  # next token
             return result
         else:
             error(')')
+
+    # <comparison>
     else:
         result = comparison()
 
@@ -177,9 +196,8 @@ def comparison():
     """
     result = arith_expr()
     if token and token.type == 'COMP_OP':
-        operation = SUPPORTED_OPERATORS[token.value]
-        print(token.value)
-        match()
+        operation = SUPPORTED_OPERATORS[token.value]  # comparision functions
+        match()  # next token
         operand = arith_expr()
         if not parse_error:
             result = operation(result, operand)
@@ -192,12 +210,12 @@ def arith_expr():
     """
     result = term()
     while token and token.type == 'ADD_OP':
-        operation = SUPPORTED_OPERATORS[token.value]
-        match()
+        operation = SUPPORTED_OPERATORS[token.value]  # add/minus functions
+        match()  # next token
         operand = term()
         if not parse_error:
             result = operation(result, operand)
-    return  result
+    return result
 
 
 def term():
@@ -206,8 +224,8 @@ def term():
     """
     result = factor()
     while token and token.type == 'MULT_OP':
-        operation = SUPPORTED_OPERATORS[token.value]
-        match()
+        operation = SUPPORTED_OPERATORS[token.value]  # *,/ functions
+        match()  # next token
         operand = factor()
         if not parse_error:
             result = operation(result, operand)
@@ -218,6 +236,7 @@ def factor():
     """
      <factor> ::= LPAREN <arith_expr> RPAREN | FLOAT | INT
     """
+    # LPAREN <arith_expr> RPAREN
     if token and token.type == 'LPAREN':
         match()
         result = arith_expr()
@@ -226,6 +245,8 @@ def factor():
             return result
         else:
             error(')')
+
+    # FLOAT or INT
     elif token and (token.type == 'FLOAT' or token.type == 'INT'):
         result = token.value
         match()
